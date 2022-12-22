@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="CodeHim">
+    <title>Order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="order1.css">
+    <link rel="stylesheet" href="order.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+        </script>
+
+</head>
+
+<body>
+
+    <section class="Nav-bar">
+        <div class="nav">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active text-dark" aria-current="page" th:href="@{index}"><b><b>FOODIE</b></b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-dark" th:href="@{aboutus}"><b>About Us</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-dark" th:href="@{login}"><b>Login</b></a>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+
+    <section>
+        <div class="cart-modal-overlay">
+            <div class="cart-modal">
+                <i id="close-btn" class="fas fa-times"></i>
+                <h1 class="cart-is-empty">No Products in cart</h1>
+
+                <div class="product-rows">
+                </div>
+                <div class="total">
+                    <form onsubmit="">
+                        <label style="width:50px;"><input type="text" name="coupon" id="in" class="coupon" placeholder="Apply Coupons Here" title="Enter coupon">
+                            <span id="usernameError"></span></label>
+                            <br><br>
+                        <input type="button" class="btn btn-success" value="Submit" onClick="validate(coupon)"/>
+                    </form>
+
+                    <span id="message"></span>
+                    <span id="err"></span>
+                    <br><br>
+                    <h1 class="cart-total">TOTAL</h1>
+                    <span class="total-price">$0</span><br>
+                    <h2 class="cart-total">FINAL PRICE</h2>
+                    <span class="final-price text-success">$0</span>
+                    <br><br>
+                    <button class="purchase-btn" th:href="@{payment}">Pay Here</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-btn">
+            <i id="cart" class="fas fa-shopping-cart"></i>
+            <span class="cart-quantity">0</span>
+        </div>
+
+        <!--  products  -->
+        <div class="items-container">
+            <div class="card-1 card">
+                <img class="product-image" src="https://midvakuhava.si/wp-content/uploads/2020/08/zar-burger-web-1-980x1470.jpg" alt="">
+                <p class="text-danger">Burger</p>
+                <button class="add-to-cart">Add to cart</button>
+                <span class="product-price">$100</span>
+            </div>
+            <div class="card-2 card">
+                <img class="product-image" src="https://d3c3mmzp3ammcc.cloudfront.net/2016/02/krzysztofkozanowski_usta2_14-980x1470.jpg" alt="">
+                <p class="text-danger">Pizza</p>
+                <button class="add-to-cart">Add to cart</button>
+                <span class="product-price">$200</span>
+            </div>
+            <div class="card-3 card">
+                <img class="product-image" src="http://wdy.h-cdn.co/assets/15/16/980x1470/gallery-1429126858-54ef93c9cb665-artichoke-almond-stuffed-chicken-breasts-recipe-wdy0114-s2.jpg" alt="">
+                <p class="text-danger">Fried Chicken</p>
+                <button class="add-to-cart">Add to cart</button>
+                <span class="product-price">$100</span>
+            </div>
+            <div class="card-4 card">
+                <img class="product-image" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/1448988156-delish-holiday-milkshakes-sugar-cookie-1654019136.jpg" alt="">
+                <p class="text-danger">Juice</p>
+                <button class="add-to-cart">Add to cart</button>
+                <span class="product-price">$50</span>
+            </div>
+        </div>
+    </section>
+    
+    <style>
+    * {
+  margin: 0;
+  padding: 0;
+}
+
+.Nav-bar{
+  background-color: darkgray;
+  padding: 1%;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.cart-btn {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#cart {
+  position: relative;
+  font-size: 2rem;
+  cursor: pointer;
+  margin: 1em 4em 0 0;
+}
+
+.cart-quantity {
+  color: white;
+  background-color: red;
+  padding: .2em .3em;
+  position: absolute;
+  margin: .8em 7.5em 0 0;
+  right: 0;
+  border: solid 2px red;
+  border-radius: 15px;
+  font-weight: bolder;
+}
+
+.items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin-top: 1em
+}
+
+.card {
+  /*   width: 15rem; */
+  margin: 1em;
+  position: relative;
+  overflow: hidden;
+  text-align: center
+}
+
+.card:hover .add-to-cart {
+  transform: translateX(0);
+}
+
+.product-image {
+  margin-bottom: 1em
+}
+
+.add-to-cart {
+  background-color: rgba(0, 0, 0, 0.638);
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 65%;
+  padding: .5em 1em;
+  transform: translateX(300px);
+  transition: .5s ease;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bolder;
+  font-size: 1.2rem
+}
+
+.product-price {
+  padding-top: 1em;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.cart-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 2;
+  transform: translateX(-200%);
+  transition: .5s ease-out;
+
+}
+
+.cart-modal {
+  height: 100vh;
+  width: 50%;
+  background-color: rgb(50, 50, 50);
+  float: right;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+#close-btn {
+  font-size: 1.5rem;
+  float: right;
+  margin: .5em 2em 0 0;
+  color: white;
+  cursor: pointer;
+}
+
+.cart-is-empty {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+  display: none;
+
+}
+
+.total {
+  text-align: center;
+  margin: 2em 0 2em 0;
+  /*   display: none; */
+}
+
+.cart-total {
+  color: white;
+}
+
+.total-price {
+  color: white;
+  font-size: 2rem;
+  display: block;
+}
+
+.purchase-btn {
+  font-size: 1rem;
+  font-weight: bolder;
+  background-color: green;
+  color: white;
+  padding: 1em 2em;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin: 2em 0 1em 0;
+}
+
+.product-rows {
+  margin-top: 3em;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.product-row {
+  display: flex;
+  align-items: center;
+}
+
+.cart-image {
+  width: 10rem;
+  margin: 1em;
+}
+
+.cart-price {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+.product-quantity {
+  width: 4rem;
+  font-size: 2rem;
+  margin-left: 3rem;
+}
+
+.remove-btn {
+  padding: 1em 2em;
+  background-color: red;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 3rem;
+  font-weight: bolder;
+  font-size: 1rem;
+}
+
+.remove-btn:active {
+  transform: translateY(5px);
+}
+
+#message {
+  position: relative;
+  top: 10px;
+  color: green;
+}
+
+#err {
+  position: relative;
+  top: 10px;
+  color: red;
+}
+
+@media (max-width: 1000px) {
+  .cart-modal {
+    width: 100vw;
+  }
+
+  .product-row {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 2em;
+  }
+
+  .remove-btn {
+    margin: 0
+  }
+
+  .product-quantity {
+    margin: .5em 0 .5em 0
+  }
+}
+    </style>
+
+    <script>
+
+ // open cart modal
+ const cart = document.querySelector('#cart');
+ const cartModalOverlay = document.querySelector('.cart-modal-overlay');
+
+ cart.addEventListener('click', () => {
+   if (cartModalOverlay.style.transform === 'translateX(-200%)') {
+     cartModalOverlay.style.transform = 'translateX(0)';
+   } else {
+     cartModalOverlay.style.transform = 'translateX(-200%)';
+   }
+ })
+
+
+ // close cart modal
+ const closeBtn = document.querySelector('#close-btn');
+
+ closeBtn.addEventListener('click', () => {
+   cartModalOverlay.style.transform = 'translateX(-200%)';
+ });
+
+ cartModalOverlay.addEventListener('click', (e) => {
+   if (e.target.classList.contains('cart-modal-overlay')) {
+     cartModalOverlay.style.transform = 'translateX(-200%)'
+   }
+ })
+
+
+ // add products to cart
+ const addToCart = document.getElementsByClassName('add-to-cart');
+ const productRow = document.getElementsByClassName('product-row');
+
+ for (var i = 0; i < addToCart.length; i++) {
+   button = addToCart[i];
+   button.addEventListener('click', addToCartClicked)
+ }
+
+ function addToCartClicked(event) {
+   button = event.target;
+   var cartItem = button.parentElement;
+   var price = cartItem.getElementsByClassName('product-price')[0].innerText;
+
+   var imageSrc = cartItem.getElementsByClassName('product-image')[0].src;
+   addItemToCart(price, imageSrc);
+   updateCartPrice()
+ }
+
+ function addItemToCart(price, imageSrc) {
+   var productRow = document.createElement('div');
+   productRow.classList.add('product-row');
+   var productRows = document.getElementsByClassName('product-rows')[0];
+   var cartImage = document.getElementsByClassName('cart-image');
+
+   for (var i = 0; i < cartImage.length; i++) {
+     if (cartImage[i].src == imageSrc) {
+       alert('This item has already been added to the cart')
+       return;
+     }
+   }
+
+   var cartRowItems = `
+   <div class="product-row">
+         <img class="cart-image" src="${imageSrc}" alt="">
+         <span class ="cart-price">${price}</span>
+         <input class="product-quantity" type="number" value="1">
+         <button class="remove-btn">Remove</button>
+         </div>
+         
+       `
+   productRow.innerHTML = cartRowItems;
+   productRows.append(productRow);
+   productRow.getElementsByClassName('remove-btn')[0].addEventListener('click', removeItem)
+   productRow.getElementsByClassName('product-quantity')[0].addEventListener('change', changeQuantity)
+   updateCartPrice()
+ }
+
+
+ // Remove products from cart
+ const removeBtn = document.getElementsByClassName('remove-btn');
+ for (var i = 0; i < removeBtn.length; i++) {
+   button = removeBtn[i]
+   button.addEventListener('click', removeItem)
+ }
+
+ function removeItem(event) {
+   btnClicked = event.target
+   btnClicked.parentElement.parentElement.remove()
+   updateCartPrice()
+ }
+
+ // update quantity input
+ var quantityInput = document.getElementsByClassName('product-quantity')[0];
+
+ for (var i = 0; i < quantityInput; i++) {
+   input = quantityInput[i]
+   input.addEventListener('change', changeQuantity)
+ }
+
+ function changeQuantity(event) {
+   var input = event.target
+   if (isNaN(input.value) || input.value <= 0) {
+     input.value = 1
+   }
+   updateCartPrice()
+ }
+
+ // update total price
+ function updateCartPrice() {
+   var total = 0
+   for (var i = 0; i < productRow.length; i += 2) {
+     cartRow = productRow[i]
+     var priceElement = cartRow.getElementsByClassName('cart-price')[0]
+     var quantityElement = cartRow.getElementsByClassName('product-quantity')[0]
+     var price = parseFloat(priceElement.innerText.replace('$', ''))
+     var quantity = quantityElement.value
+     total = total + (price * quantity)
+     validate();
+   }
+   document.getElementsByClassName('total-price')[0].innerText = '$' + total
+   document.getElementsByClassName('cart-quantity')[0].textContent = i /= 2
+ }
+
+
+ //coupen validation
+
+ function validate(coupon) {
+   var myRe = "LUCKY25";
+   const myRe1 = "BFF15";
+   const coupon1 = myRe1.trim();
+   var coupon = myRe.trim();
+   var input = document.getElementById('in').value;
+   if (input.toUpperCase() == coupon.toUpperCase()) {
+     document.getElementById('message').innerHTML = `Coupon Code ${myRe}, Applied Successfully`;
+     document.getElementById('err').innerHTML = "" ;
+     return true;
+   } else if(input.toUpperCase() == coupon1.toUpperCase()){
+     document.getElementById('message').innerHTML = `Coupon Code ${myRe1}, Applied Successfully`;
+     document.getElementById('err').innerHTML = "";
+     return true;
+   } else {
+     document.getElementById('err').innerHTML = "Invalid coupon";
+     document.getElementById('message').innerHTML = "";
+     return false; 
+   }
+ }
+
+
+
+
+ // purchase items
+ const purchaseBtn = document.querySelector('.purchase-btn');
+
+ const closeCartModal = document.querySelector('.cart-modal');
+
+ purchaseBtn.addEventListener('click', purchaseBtnClicked)
+
+ function purchaseBtnClicked() {
+   window.location.href = "payment.html"
+
+   while (cartItems.hasChildNodes()) {
+     cartItems.removeChild(cartItems.firstChild)
+
+   }
+   updateCartPrice()
+ }
+    
+    </script>
+
+</body>
+
+</html>

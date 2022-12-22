@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- Created By CodeWithNepal(codewithnepal.com) -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <link href="index.js">
+</head>
+
+<body>
+
+    <div class="bg-img">
+        <div class="content">
+            <header>Login</header>
+            <form action="#">
+                <div class="field">
+                    <span class="fa fa-user"></span>
+                    <input type="text" required placeholder="Email or Phone">
+                </div>
+                <div class="field space">
+                    <span class="fa fa-lock"></span>
+                    <input type="password" class="pass-key" required placeholder="Password">
+                    <span class="show">SHOW</span>
+                </div>
+                <br><br>
+                <div class="field">
+                    <input type="submit" value="LOGIN">
+                </div>
+            </form><br>
+            <div class="signup">
+                LogIn as Admin?
+                <a th:href="@{adminlogin}">Login Now</a>
+            </div><br>
+            <div class="signup">
+                Don't have account?
+                <a th:href="@{signup}">Signup Now</a>
+            </div>
+        </div>
+    </div>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0%;
+  background-color: white;
+  color: whitesmoke;
+}
+
+
+.bg-img {
+  background: url('https://media.istockphoto.com/photos/assorted-indian-recipes-food-various-picture-id922783734?b=1&k=20&m=922783734&s=612x612&w=0&h=cWtz2LzEw-I-HSTN8HzkTbG0w3uGpleEE46xIJRRfo4=');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-img:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  text-align: center;
+  padding: 60px 32px;
+  width: 370px;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.778);
+  border-radius: 20px;
+  box-shadow: -1px 4px 28px 0px rgba(0, 0, 0, 0.75);
+}
+
+.content header {
+  color: black;
+  font-size: 33px;
+  font-weight: 600;
+  margin: 0 0 35px 0;
+}
+
+.field {
+  position: relative;
+  height: 45px;
+  width: 100%;
+  display: flex;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.field span {
+  color: #3498db;
+  width: 40px;
+  line-height: 45px;
+}
+
+.field input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #222;
+  font-size: 16px;
+}
+
+.space {
+  margin-top: 16px;
+}
+
+.show {
+  position: absolute;
+  right: 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  display: none;
+  cursor: pointer;
+
+}
+
+.pass-key:valid~.show {
+  display: block;
+}
+
+.pass {
+  text-align: left;
+  margin: 10px 0;
+}
+
+.pass a {
+  color: black;
+  text-decoration: none;
+
+}
+
+.pass:hover a {
+  text-decoration: underline;
+}
+
+.field input[type="submit"] {
+  background: #3498db;
+  border: 1px solid #2691d9;
+  color: black;
+  font-size: 18px;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+}
+
+.field input[type="submit"]:hover {
+  background: #2691d9;
+}
+
+.signup {
+  font-size: 15px;
+  color: black;
+
+}
+
+.signup a {
+  color: black;
+  text-decoration: none;
+}
+
+.signup a:hover {
+  color: crimson;
+  text-decoration: underline;
+}
+
+</style>
+
+    <script>
+        const pass_field = document.querySelector('.pass-key');
+        const showBtn = document.querySelector('.show');
+        showBtn.addEventListener('click', function () {
+            if (pass_field.type === "password") {
+                pass_field.type = "text";
+                showBtn.textContent = "HIDE";
+                showBtn.style.color = "#3498db";
+            } else {
+                pass_field.type = "password";
+                showBtn.textContent = "SHOW";
+                showBtn.style.color = "#222";
+            }
+        });
+    </script>
+</body>
+
+</html>
